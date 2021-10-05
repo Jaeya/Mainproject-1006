@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    /* 페이지의 바깥여백영역 */
+    margin: 0;
+    /* 페이지의 안쪽여백영역 */
+    padding: 0;
+     /* 요소의 너비와 높이를 계산하는 방법 지정
+    border-box는 안쪽 박의 사이즈가 바깥쪽 박스를 못 넘게
+    width와 height 속성이 안쪽 여백과 테두리는 포함하고, 바깥 여백은 미포함*/
+    box-sizing: border-box;
+        /* 글꼴 여러개 설정 Poppins가 없다면 (,)
+    뒤에  sans-serif글꼴 설정 */
+    font-family: 'Poppins', sans-serif;
+}
+
+.error {
+    background-color:#ff5252;
+    width: 50px;
+    position: relative;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    /* margin-top:10px; */
+    z-index: 3;
+}
+.success {
+    width: 50px;
+    position: relative;
+    background-color:#00e676;
+    color:white;
+    padding:10px;
+    border-radius:5px;
+    /* margin-top:10px; */
+    z-index: 3;
+}
+
+body{
+    /* body의 높이가 최소100vh만큼 표시 */
+    min-height: 100vh;
+    /* background: #150019; */
+}
+/* navigation 클래스 기본설정 */
+.navigation{
+    /* position의 relative는 위치값을 내가 넣고 싶은 곳으로
+    조정 하기 위함
+    fixed 는 위치 고정 */
+    position: fixed;
+    width: 60px;
+    /* 높이 100vh 는 vieport기준의 height비율
+    즉 100vh는 100%를 의미 */
+    height: 100vh;
+    background: #3e0748;
+    /* 마우스가 navigation클래스에서 떨어지면 가로로 0.5초 */
+    transition: width 0.5s;
+    /* 넘친 컨텐츠는 잘려지고 안보임 */
+    overflow: hidden;
+}
+.navigation .bit a{
+    position: relative;
+    text-decoration: none;
+    z-index: 1;
+    color: #fff;
+    font-size: 20px;
+}
+/* 마우스가 navigation클래스에 올라갈 때 설정
+link -> visited -> hover -> active 순서로 해야 에러X */
+.navigation:hover,
+.navigation.active{
+    /* 마우스가 navigation클래스에 올라와 있을 때 
+    가로 너비가 300px*/
+    width: 300px;
+}
+/* navigation 클래스의 ul태그 설정 */
+.navigation ul{
+    /* ul 포지션이 위 부모 값에 영향을
+    받지 않고 독립적으로 설정할 때 absolute 사용 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* 왼쪽을 기준으로 5px만큼 간격주기 */
+    /* padding-left: 5px; */
+    /* 위쪽을 기준으로 40px만큼 간격주기 */
+    padding-top: 40px;
+}
+/* navigation 클래스의 ul태그의 li태그설정 */
+.navigation ul li{
+    position: relative;
+    top: 380px;
+    width: 60px;
+    /* li맨앞에 표시될 형식 없음으로 */
+    list-style: none;
+    /* 왼쪽 상단의 모서리 설정 */
+    /* border-top-left-radius: 20px; */
+    /* 왼쪽 하단의 모서리 설정 */
+    /* border-bottom-left-radius: 20px; */
+    /* 전체 모서리 설정 */
+    border-radius: 20px;
+}
+/* navigation 클래스의 ul태그의 li태그의
+hover설정(마우스가 위에 올라갔을 때) */
+.navigation ul li:hover{
+    background: #ea1d63;
+}
+/* navigation 클래스의 ul태그의 li태그의 a태그설정 */
+.navigation ul li a{
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    /* 글자의 모든 효과 없애기 ex)밑줄 없애기 */
+    text-decoration: none;
+    color: #fff;
+}
+.navigation ul li a .icon{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+.navigation ul li a .icon .fas{
+    font-size: 18px;
+}
+.navigation ul li a .title {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height:  60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+.toggle{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background: #330748;
+    cursor: pointer;
+}
+.toggle.active{
+    background: #ea1d63;
+}
+.toggle:before{
+    /* css 유니코드
+    before, after을 쓸 때 content는 필수요소 */
+    content: "\f0c9";
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 60px;
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+}
+.toggle.active:before{
+    content: '\f00d';
+}
+/* -------------사이드 바 안에 채팅창------------- */
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+:root {
+	--dark-color-a: #667aff;
+	--dark-color-b: #7386ff;
+	--light-color: #e6e9ff;
+	--success-color: #5cb85c;
+	--error-color: #d9534f;
+}
+
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.btn {
+	cursor: pointer;
+    width: 50px;
+    height: 45px;
+	/* padding: 5px 15px; */
+	background: var(--light-color);
+	color: var(--dark-color-a);
+	border: 0;
+	font-size: 12px;
+}
+
+/* Chat Page */
+
+/* .chat-container {
+    position: absolute;
+    right: 0px;
+    top: 100px;
+    width: 350px;
+    height: 600px;
+	max-width: 1100px;
+	background: #fff;
+	margin: 30px auto;
+	overflow: hidden;
+    opacity: 0.85;
+}
+
+.chat-header {
+    position: relative;
+	background: var(--dark-color-a);
+	color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	padding: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.chat-main {
+    position: relative;
+	display: grid;
+	grid-template-columns: 1fr 3fr;
+}
+
+.chat-sidebar {
+    height: 460px;
+    position: relative;
+	background: var(--dark-color-b);
+	color: #fff;
+    width: 120px;
+	padding: 20px 20px 60px;
+	overflow-y: scroll;	
+	min-height: 200px;
+}
+
+.chat-sidebar h2 {
+	font-size: 20px;
+	background: rgba(0, 0, 0, 0.1);
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.chat-sidebar h3 {
+	margin-bottom: 15px;
+	
+}
+
+.chat-sidebar ul li {
+	padding: 10px 0;
+}
+
+.chat-messages {
+	padding: 30px;
+	max-height: 500px;
+	overflow-y: scroll;
+}
+
+.chat-messages .message {
+	padding: 10px;
+	margin-bottom: 15px;
+	background-color: var(--light-color);
+	border-radius: 5px;
+}
+
+.chat-messages .message .meta {
+	font-size: 15px;
+	font-weight: bold;
+	color: var(--dark-color-b);
+	opacity: 0.7;
+	margin-bottom: 7px;
+}
+
+.chat-messages .message .meta span {
+	color: #777;
+}
+
+.chat-form-container {
+	padding: 6px 6px;
+	background-color: var(--dark-color-a);
+}
+
+.chat-form-container form {
+	height: 50px;
+    display: flex;
+    
+}
+
+.chat-form-container input[type='text'] {
+	width: 50px;
+    font-size: 16px;
+	padding: 5px;
+	flex: 1;
+} */
+
+/* Join Page */
+.join-container {
+	max-width: 500px;
+	margin: 80px auto;
+	color: #fff;
+}
+
+.join-header {
+	text-align: center;
+	padding: 20px;
+	background: var(--dark-color-a);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.join-main {
+	padding: 30px 40px;
+	background: var(--dark-color-b);
+}
+
+.join-main p {
+	margin-bottom: 20px;
+}
+
+.join-main .form-control {
+	margin-bottom: 20px;
+}
+
+.join-main label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.join-main input[type='text'] {
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	width: 100%;
+}
+
+.join-main select {
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	width: 100%;
+}
+
+.join-main .btn {
+	margin-top: 20px;
+	width: 100%;
+}
+
+@media (max-width: 50px) {
+	.chat-main {
+		display: block;
+	}
+
+	.chat-sidebar {
+		display: none;
+	}
+}

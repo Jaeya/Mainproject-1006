@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Blockland - a multi-player game</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="description"
+		content="Blockland is a multi-player game. Using the Three.js library. author:Nik Lever ©2018 category:application-javascript" />
+	<!-- <meta property="og:url" content="http://niksgames.com/blockland" />
+		<meta property="og:type" content="product" />
+		<meta property="og:title" content="Blockland - a multi-player game" />
+		<meta property="og:description" content="Blockland is a multi-player game. Using the Three.js library. author:Nik Lever ©2018 category:application-javascript" />
+		<meta property="og:image" content="http://niksgames.com/blockland/assets/blockland-og.jpg" />
+		<meta property="og:image:type" content="image/jpeg" />
+		<meta property="og:image:width" content="1265" />
+		<meta property="og:image:height" content="817" />
+		<meta property="og:image:alt" content="Blockland - a multi-player game" />
+		<meta property='og:video' content='https://www.youtube.com/v/1r9V_JEEMlA' /> -->
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans|Kavivanar" rel="stylesheet">
+	<!-- w3schools -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+		integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- 유니코드 쓰려면 아래 코드 필수!!!! -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+		body {
+			font-family: Monospace;
+			background-color: #000;
+			color: #fff;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		#message {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			font-family: 'Kavivanar', san-serif;
+			font-size: 40px;
+			width: 80%;
+			max-width: 280px;
+			padding: 15px 15px 50px 15px;
+			text-align: center;
+			display: none;
+			align-content: center;
+			justify-content: center;
+			background-color: aliceblue;
+			border: medium solid #3D455C;
+			border-radius: 20px;
+			color: #3D455C;
+			z-index: 99;
+		}
+
+		#message_ok {
+			position: absolute;
+			bottom: 10px;
+			padding: 10px 20px 10px 20px;
+			font-family: sans-serif;
+			font-size: 20px;
+			background-color: #3D455C;
+			color: #fff;
+			border-radius: 8px;
+			border: medium solid #696882;
+		}
+
+		#chat {
+			position: absolute;
+			width: 100%;
+			height: 40px;
+			bottom: -40px;
+			transition: all 0.5s;
+		}
+
+		form {
+			background: #000;
+			padding: 3px;
+			width: 100%;
+		}
+
+		form input {
+			border: 0;
+			padding: 10px;
+			width: 88%;
+			margin-right: .5%;
+		}
+
+		form button {
+			width: 8%;
+			background: rgb(130, 224, 255);
+			border: none;
+			padding: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="message">
+		<p id="message_text"></p>
+		<button id="message_ok">OK</button>
+	</div>
+	<div id="chat">
+		<form id="msg-form" action="">
+			<input id="m" autocomplete="off" /><button>Send</button>
+		</form>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/92/three.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+
+	<script src="libs/FBXLoader.js"></script>
+	<script src="libs/inflate.min.js"></script>
+	<!-- 폰트관련 모듈1 -->
+	<script type="module" src="libs/three.js-master/src/loaders/FontLoader.js"></script>
+	<!-- 폰트관련 모듈2 -->
+	<script type="module" src="libs/three.js-master/src/geometries/TextGeometry.js"></script>
+	<!-- <script type="module" src="libs/three.js-master/examples/js/loaders/TTFLoader.js"></script> -->
+
+	<!-- 사운드 관련 모듈1 -->
+	<script type="module" src="libs/three.js-master/src/loaders/AudioLoader.js"></script>
+	<script type="module" src="libs/three.js-master/src/audio/AudioListener.js"></script>
+	<script type="module" src="libs/three.js-master/src/audio/Audio.js"></script>
+
+	<script type="module" src="libs/three.js-master/src/loaders/TextureLoader.js"></script>
+
+
+	<script src="libs/Detector.js"></script>
+	<script src="libs/toon3d.js"></script>
+
+	<script src="game.js"></script>
+	<script src="Player.js"></script>
+	<script src="PlayerLocal.js"></script>
+	<script src="SpeechBubble.js"></script>
+	<script src="users.js"></script>
+<!-- 
+	<script>
+		var game;
+		var player;
+		var playerlocal;
+		var speechbubble;
+
+		document.addEventListener("DOMContentLoaded", function () {
+			game = new Game(), player = new Player(),
+				playerlocal = new Playerlocal(), speechbubble = new SpeechBubble()
+		});
+
+
+	</script> -->
+	<!-- <div>
+			<audio id="audio">
+				<source src="./assets/sound/bensound-ukulele.mp3" type="audio/mp3">
+			</audio>
+			<button>Play</button>
+		</div> -->
+
+	<div id="overlay">
+		<button id="startButton">Play</button>
+	</div>
+
+	<!-- 사이드 바 -->
+	<div class="navigation">
+		<div class="bit">
+			<a href="#">Bit Holic</a>
+		</div>
+		<ul>
+			<li>
+				<a href="#">
+					<span class="icon"><i class='fas fa-home'></i></span>
+					<span class="title">Home</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"><i class='fas fa-user-alt'></i></span>
+					<span class="title">Profile</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"><i class='fas fa-comment-alt'></i></span>
+					<span class="title">Message</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"><i class='fas fa-question-circle'></i></span>
+					<span class="title">Help</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"><i class='fas fa-cog'></i></span>
+					<span class="title">Setting</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"></span>
+					<span class="title"></span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"><i class='fas fa-sign-out-alt'></i></span>
+					<span class="title">Sign Out</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<!-- 사이드바 안에 채팅창 -->
+	<!-- <div class="chat-container">
+		<header class="chat-header">
+			<h1><i class="fas fa-smile"></i> BIT Occasion </h1>
+			<a href="index.html" class="btn">Leave Room</a>
+		</header>
+		<main class="chat-main">
+			<div class="chat-sidebar">
+				<h3><i class="fas fa-comments"></i> Room Name </h3>
+				<h2 id="room-name"></h2>
+				<h3><i class="fas fa-users"></i> Users </h3>
+				<ul id="users"></ul>
+			</div>
+			<div class="chat-messages"></div>
+		</main>
+		<div class="chat-form-container">
+			<form id="chat-form">
+				<input id="msg" type="text" placeholder="Enter Message" required autocomplete="off" />
+				<button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
+			</form>
+		</div>
+	</div> -->
+	<!-- 사이드바 이벤트 -->
+	<div class="toggle" onclick="toggleMenu()"></div>
+	<script type="text/javascript">
+		function toggleMenu() {
+			let navigation = document.querySelector('.navigation');
+			let toggle = document.querySelector('.toggle');
+			navigation.classList.toggle('active');
+			toggle.classList.toggle('active');
+		}
+	</script>
+	<div class="create-nick" style="width: 100%; height: 100%; vertical-align: middle;">
+		<div style="text-align: center;">
+			<h1>닉네임 입력 </h1>
+			<input class="user-nick">
+			<button class="save-nick"> 저장 </button>
+		</div>
+	</div>
+	<script>
+		let nickList = [];
+		$('.save-nick').click(function() {
+			let UserNick = $('.user-nick').val();
+			//onsole.log('UserNick: ' + UserNick);
+			$('.create-nick').hide();
+/*
+			const socket = io.connect();
+			socket.emit('nickdata', Usernick);
+			socket.on('update nicklist', () => {
+				nickList = 
+			});
+*/
+			users = new Users(UserNick);
+
+			game = new Game(), player = new Player(),
+			playerlocal = new Playerlocal(), speechbubble = new SpeechBubble()  
+			// document.addEventListener("DOMContentLoaded", function(){ game = new Game(UserModel); });
+		});
+	</script>
+</body>
+
+</html>
