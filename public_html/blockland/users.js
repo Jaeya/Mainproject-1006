@@ -3,33 +3,32 @@ class Users{
        
         const userList = document.getElementById('users');
         const socket = io.connect();
-        const user = this;
 
-        this.users = [];
+        var users = [];
         
-        this.usernick = UserNiCK
-        this.socket = socket;
-        console.log('온다', this.usernick)
+        var usernick = UserNiCK;
+        var userid;
+
+        socket.on('setId', function (data) {
+            userid = data.id;
+            console.log('들고와진다' + userid);
+
+           socket.emit('nickdata', {nick: usernick, id: userid});
+      });
+
         
-        this.socket.on('setId', function (data) {
-			//user.id = data.id;
-
-           
-		});
-
-        this.socket.emit('nickdata',  this.usernick, user.id)     
           
         
-        this.socket.on('nicksave', (data)=>{
-
-        
+        socket.on('nicksave', (data)=>{
              userList.innerHTML = `
-             ${data.map(data => `<span>${data}</span>`).join(',')}`
+             ${data.map(data => `<span>${data.nick}</span>`).join(',')}`
             // const user = data;
             // users.push(user)
             
-            console.log('asd', data)
+            console.log('배열 확인', data)
         })
+
+        
 
     }
 
@@ -68,6 +67,10 @@ class Users{
 //     getCurrentUser,
 //     userLeave
 // }
+
+
+
+
 
 
 

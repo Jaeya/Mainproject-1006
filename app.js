@@ -28,7 +28,6 @@ io.sockets.on('connection', function(socket){
 
 		io.emit('nicksave', nickList)
 		console.log(nickList);
-		
 
 		// const user = this.users.userJoin(socket.id, usernick );
 		// console.log("실험" , data.usernick);
