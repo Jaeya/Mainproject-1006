@@ -26,13 +26,15 @@ io.sockets.on('connection', function(socket){
 		const newUser = data;
 		nickList.push(newUser);
 
+		io.emit('nicksave', nickList)
+		console.log(nickList);
 		
+
 		// const user = this.users.userJoin(socket.id, usernick );
 		// console.log("실험" , data.usernick);
 		// socket.join(user)
 		
 
-		// socket.broadcast.to(user).emit('nicksave', `${user.usernick} 접속`)
 		
 	})
 
